@@ -1,0 +1,23 @@
+@{
+    ViewData["Title"] = "Add staff";
+}
+
+<h2>Add staff</h2>
+
+<form asp-action="Create" method="post">
+    <label for="StaffId">StaffId</label>
+    <input type="number" name="StaffId" id="StaffId" />
+    <label for="FullName">FullName</label>
+    <input type="text" name="FullName" id="FullName" />
+    <label for="Email">Email</label>
+    <input type="email" name="Email" id="Email" />
+    <label for="Position">Position</label>
+    <input type="text" name="Position" id="Position" />
+    <label for="Unit">Unit</label>
+    <input type="text" name="Unit" id="Unit" />
+    <button type="submit">Save</button>
+</form>
+
+<p>
+    <a asp-action="Index">Back to staff list</a>
+</p>

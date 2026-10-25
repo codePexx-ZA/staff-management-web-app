@@ -1,0 +1,24 @@
+@model StaffMember
+
+@{
+    ViewData["Title"] = "Edit staff";
+}
+
+<h2>Edit staff</h2>
+
+<form asp-action="Edit" method="post">
+    <input type="hidden" name="StaffId" value="@Model.StaffId" />
+    <label for="FullName">FullName</label>
+    <input type="text" name="FullName" id="FullName" value="@Model.FullName" />
+    <label for="Email">Email</label>
+    <input type="email" name="Email" id="Email" value="@Model.Email" />
+    <label for="Position">Position</label>
+    <input type="text" name="Position" id="Position" value="@Model.Position" />
+    <label for="Unit">Unit</label>
+    <input type="text" name="Unit" id="Unit" value="@Model.Unit" />
+    <button type="submit">Save</button>
+</form>
+
+<p>
+    <a asp-action="Index">Back to list</a>
+</p>

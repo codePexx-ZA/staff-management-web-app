@@ -1,0 +1,42 @@
+@model List<StaffMember>
+
+@{
+    ViewData["Title"] = "Staff";
+}
+
+<h2>Staff</h2>
+
+<p>
+    <a asp-action="Create">Add staff</a>
+    |
+    <a asp-controller="Access" asp-action="Logout">Logout</a>
+</p>
+
+<table>
+    <thead>
+        <tr>
+            <th>StaffId</th>
+            <th>FullName</th>
+            <th>Email</th>
+            <th>Position</th>
+            <th>Unit</th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var s in Model)
+        {
+            <tr>
+                <td>@s.StaffId</td>
+                <td>@s.FullName</td>
+                <td>@s.Email</td>
+                <td>@s.Position</td>
+                <td>@s.Unit</td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@s.StaffId">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@s.StaffId">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
