@@ -8,17 +8,17 @@ public class StaffController : Controller
 {
     private readonly StaffService _staffService;
 
-    public StaffController(StaffService staffService) // constructor for the staff service
+    public StaffController(StaffService staffService)
     {
         _staffService = staffService;
     }
 
-    private bool IsLoggedIn() // checks if the user is logged in
+    private bool IsLoggedIn()
     {
         return HttpContext.Session.GetString("AdminUsername") != null;
     }
 
-    public IActionResult Index() // shows the index page
+    public IActionResult Index()
     {
         if (!IsLoggedIn())
         {
@@ -28,7 +28,7 @@ public class StaffController : Controller
     }
 
     [HttpGet]
-    public IActionResult Create() // shows the create page
+    public IActionResult Create()
     {
         if (!IsLoggedIn())
         {
@@ -38,7 +38,7 @@ public class StaffController : Controller
     }
 
     [HttpPost]
-    public IActionResult Create(StaffMember staffMember) // creates a new staff member
+    public IActionResult Create(StaffMember staffMember)
     {
         if (!IsLoggedIn())
         {
@@ -49,7 +49,7 @@ public class StaffController : Controller
     }
 
     [HttpGet]
-    public IActionResult Edit(int id) // shows the edit page
+    public IActionResult Edit(int id)
     {
         if (!IsLoggedIn())
         {
@@ -64,7 +64,7 @@ public class StaffController : Controller
     }
 
     [HttpPost]
-    public IActionResult Edit(StaffMember staffMember) // edits a staff member
+    public IActionResult Edit(StaffMember staffMember)
     {
         if (!IsLoggedIn())
         {
@@ -74,7 +74,7 @@ public class StaffController : Controller
         return RedirectToAction("Index");
     }
 
-    public IActionResult Delete(int id) // deletes a staff member
+    public IActionResult Delete(int id)
     {
         if (!IsLoggedIn())
         {

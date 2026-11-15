@@ -4,41 +4,72 @@ namespace ITEHAProject.Services;
 
 public class StaffService
 {
-    private List<StaffMember> _staff = new List<StaffMember>(); // creates a list of staff members
+    private readonly List<StaffMember> _staff = new();
+    private readonly Lock _staffLock = new();
 
-    public void Add(StaffMember staffMember) // adds a staff member to the list
+    public void Add(StaffMember staffMember)
     {
-        _staff.Add(staffMember);
-    }
-
-    public List<StaffMember> GetAll() // returns all staff members from the list
-    {
-        return _staff;
-    }
-
-    public StaffMember? GetById(int id) // returns a staff member by their ID
-    {
-        return _staff.FirstOrDefault(s => s.StaffId == id);
-    }
-
-    public void Update(StaffMember member) // updates a staff member in the list
-    {
-        var existingMember = GetById(member.StaffId);
-        if (existingMember != null)
+        lock (_staffLock)
         {
-            existingMember.FullName = member.FullName;
-            existingMember.Email = member.Email;
-            existingMember.Position = member.Position;
-            existingMember.Unit = member.Unit;
+            _staff.Add(staffMember);
         }
     }
 
-    public void Delete(int id) // deletes a staff member from the list
+    public List<StaffMember> GetAll()
     {
-        var member = GetById(id);
-        if (member != null)
+        lock (_staffLock)
         {
-            _staff.Remove(member);
+            return new List<StaffMember>(_staff);
         }
+    }
+
+    public StaffMember? GetById(int id)
+    {
+        lock (_staffLock)
+        {
+            var index = FindIndexById(id);
+            return index >= 0 ? _staff[index] : null;
+        }
+    }
+
+    public void Update(StaffMember member)
+    {
+        lock (_staffLock)
+        {
+            var index = FindIndexById(member.StaffId);
+            if (index >= 0)
+            {
+                var existingMember = _staff[index];
+                existingMember.FullName = member.FullName;
+                existingMember.Email = member.Email;
+                existingMember.Position = member.Position;
+                existingMember.Unit = member.Unit;
+            }
+        }
+    }
+
+    public void Delete(int id)
+    {
+        lock (_staffLock)
+        {
+            var index = FindIndexById(id);
+            if (index >= 0)
+            {
+                _staff.RemoveAt(index);
+            }
+        }
+    }
+
+    private int FindIndexById(int id)
+    {
+        for (var index = 0; index < _staff.Count; index++)
+        {
+            if (_staff[index].StaffId == id)
+            {
+                return index;
+            }
+        }
+
+        return -1;
     }
 }
