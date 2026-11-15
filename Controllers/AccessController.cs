@@ -9,31 +9,31 @@ public class AccessController : Controller
     {
         Username = "admin",
         Password = "password",
-    }; // creates a new system admin with username and password
+    };
 
-    [HttpGet] // browser opens the page
-    public IActionResult Login() // shows the login page
+    [HttpGet]
+    public IActionResult Login()
     {
         return View();
     }
 
-    [HttpPost] // browser sends data to the server
-    public IActionResult Login(string username, string password) // logs in the admin
+    [HttpPost]
+    public IActionResult Login(string username, string password)
     {
-        if (username == _systemAdmin.Username && password == _systemAdmin.Password) // if username and password match the admin
+        if (username == _systemAdmin.Username && password == _systemAdmin.Password)
         {
-            HttpContext.Session.SetString("AdminUsername", username); // store the username in session
-            return RedirectToAction("Index", "Staff"); // redirect to the staff index page
+            HttpContext.Session.SetString("AdminUsername", username);
+            return RedirectToAction("Index", "Staff");
         }
-        else // if username and password do not match the admin
+        else
         {
-            return View(); // show the login page again
+            return View();
         }
     }
 
-    public IActionResult Logout() // logs out the admin
+    public IActionResult Logout()
     {
-        HttpContext.Session.Remove("AdminUsername"); // remove the username from session
-        return RedirectToAction("Login"); // redirect to the login page
+        HttpContext.Session.Remove("AdminUsername");
+        return RedirectToAction("Login");
     }
 }
